@@ -1,0 +1,41 @@
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+##    url: jdbc:mysql://localhost:3306/blog?useSSL=false&allowPublicKeyRetrieval=true
+#    url: jdbc:mysql://test-db:3306/blog?useSSL=false&allowPublicKeyRetrieval=true
+#    username: user1
+#    password: user1
+spring:
+  config:
+    import: optional:configserver:http://localhost:8888
+#    import: optional:configserver:http://config-server:8888
+  application:
+    name: member-service
+  profiles:
+    default: member-service
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+
+thymeleaf:
+  prefix: classpath:/templates/
+  suffix: .hml
+    
+server:
+  port: 9093
+  
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
